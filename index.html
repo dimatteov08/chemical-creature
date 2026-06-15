@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemical Creature — Art, Music &amp; More</title>
+  <meta name="description" content="Chemical Creature is the creative world of an artist, musician, and animal lover. Explore art, music, merch, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0f;
+      --card: #0d0d14;
+      --deep: #060608;
+      --purple: #760BDA;
+      --purple-dim: #2d1b4e;
+      --purple-glow: #b088f9;
+      --blue: #1500FF;
+      --blue-bright: #4d6fff;
+      --blue-dim: #0f1f4a;
+      --grey: #CFCFCF;
+      --muted: #9e9e9e;
+      --white: #FFFFFF;
+      --border: #1a1025;
+      --border-purple: #2d1b4e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--grey);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       SMOKE REVEAL OVERLAY
+    ============================================ */
+    #smoke-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .smoke-particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: smokeDrift 5.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+
+    /* Heavy overlapping grey clouds that cover the whole page */
+    .sp1 {
+      width: 80vw; height: 70vh;
+      background: radial-gradient(ellipse, rgba(180,180,185,0.95) 0%, rgba(160,160,165,0.7) 50%, transparent 80%);
+      top: -15%; left: -15%;
+      filter: blur(45px);
+      animation-delay: 0s;
+      animation-duration: 5.5s;
+    }
+    .sp2 {
+      width: 75vw; height: 80vh;
+      background: radial-gradient(ellipse, rgba(165,165,170,0.92) 0%, rgba(145,145,150,0.65) 50%, transparent 80%);
+      top: -10%; right: -20%;
+      filter: blur(50px);
+      animation-delay: 0.2s;
+      animation-duration: 6s;
+    }
+    .sp3 {
+      width: 90vw; height: 60vh;
+      background: radial-gradient(ellipse, rgba(190,190,195,0.9) 0%, rgba(170,170,175,0.6) 50%, transparent 80%);
+      top: 25%; left: -10%;
+      filter: blur(55px);
+      animation-delay: 0.1s;
+      animation-duration: 5.8s;
+    }
+    .sp4 {
+      width: 70vw; height: 75vh;
+      background: radial-gradient(ellipse, rgba(155,155,162,0.93) 0%, rgba(135,135,142,0.68) 50%, transparent 80%);
+      bottom: -15%; right: -10%;
+      filter: blur(48px);
+      animation-delay: 0.3s;
+      animation-duration: 6.2s;
+    }
+    .sp5 {
+      width: 85vw; height: 65vh;
+      background: radial-gradient(ellipse, rgba(175,175,180,0.88) 0%, rgba(155,155,160,0.62) 50%, transparent 80%);
+      bottom: -10%; left: 5%;
+      filter: blur(52px);
+      animation-delay: 0.15s;
+      animation-duration: 5.9s;
+    }
+    .sp6 {
+      width: 65vw; height: 85vh;
+      background: radial-gradient(ellipse, rgba(170,170,178,0.9) 0%, rgba(150,150,158,0.65) 50%, transparent 80%);
+      top: 15%; left: 20%;
+      filter: blur(46px);
+      animation-delay: 0.25s;
+      animation-duration: 6.1s;
+    }
+    .sp7 {
+      width: 55vw; height: 55vh;
+      background: radial-gradient(ellipse, rgba(185,185,190,0.85) 0%, rgba(165,165,170,0.6) 50%, transparent 80%);
+      top: 40%; right: 5%;
+      filter: blur(60px);
+      animation-delay: 0.05s;
+      animation-duration: 5.7s;
+    }
+
+    @keyframes smokeDrift {
+      0%   {
+        opacity: 1;
+        transform: scale(1) translate(0, 0);
+      }
+      30%  {
+        opacity: 0.85;
+        transform: scale(1.05) translate(-10px, -15px);
+      }
+      65%  {
+        opacity: 0.45;
+        transform: scale(1.2) translate(-20px, -40px);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.45) translate(-35px, -90px);
+      }
+    }
+
+    #smoke-overlay.done {
+      display: none;
+    }
+
+    /* ============================================
+       SKIP LINK
+    ============================================ */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 16px;
+      background: var(--purple);
+      color: var(--white);
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      text-decoration: none;
+      z-index: 999;
+      border-radius: 2px;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 16px; }
+
+    /* ============================================
+       FOCUS
+    ============================================ */
+    :focus-visible {
+      outline: 2px solid var(--purple-glow);
+      outline-offset: 3px;
+    }
+
+    /* ============================================
+       NAV
+    ============================================ */
+    nav {
+      background: var(--black);
+      border-bottom: 1px solid var(--border-purple);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--purple-glow);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--purple-glow); }
+    .nav-links a[aria-current="page"] { color: var(--blue-bright); }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    .hero {
+      padding: 64px 32px 56px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Purple ambient glow behind logo */
+    .hero-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(118,11,218,0.10) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--blue-bright);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Logo image — screen blend removes black background */
+    .hero-logo {
+      display: block;
+      max-width: 420px;
+      width: 90%;
+      margin: 0 auto 32px;
+      position: relative;
+      z-index: 1;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 30px rgba(118,11,218,0.4)) drop-shadow(0 0 60px rgba(21,0,255,0.15));
+      animation: logoPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { filter: drop-shadow(0 0 30px rgba(118,11,218,0.4)) drop-shadow(0 0 60px rgba(21,0,255,0.15)); }
+      50%       { filter: drop-shadow(0 0 50px rgba(118,11,218,0.65)) drop-shadow(0 0 90px rgba(21,0,255,0.25)); }
+    }
+
+    .hero-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-purple), transparent);
+      margin: 0 auto 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--muted);
+      font-style: italic;
+      max-width: 420px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary {
+      background: var(--purple-dim);
+      border: 1px solid var(--purple);
+      color: #c9a8f7;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 13px 28px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: #3d2060;
+      border-color: var(--purple-glow);
+      color: #e8e0f5;
+      box-shadow: 0 0 20px rgba(118,11,218,0.25);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--blue-dim);
+      color: var(--blue-bright);
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 13px 28px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      background: var(--blue-dim);
+      border-color: var(--blue-bright);
+      color: #a0b4ff;
+    }
+
+    /* ============================================
+       SECTION GRID
+    ============================================ */
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-top: 1px solid var(--border);
+    }
+
+    .section-card {
+      background: var(--card);
+      padding: 32px 28px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+    }
+
+    .section-card:hover { background: #13101f; }
+
+    .card-icon {
+      font-size: 22px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .card-icon.purple { color: var(--purple-glow); }
+    .card-icon.blue { color: #7b9ef5; }
+    .card-icon.mixed { color: #8a6fd4; }
+
+    .card-name {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c9a8f7;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-card:nth-child(even) .card-name { color: #7b9ef5; }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       ABOUT STRIP
+    ============================================ */
+    .about-strip {
+      padding: 72px 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .about-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--purple-glow);
+      margin-bottom: 16px;
+    }
+
+    .about-heading {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-weight: 700;
+      color: #e8e0f5;
+      line-height: 1.2;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .about-text {
+      font-size: 16px;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 28px;
+    }
+
+    .about-image {
+      aspect-ratio: 4/5;
+      background: var(--card);
+      border: 1px solid var(--border-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(118,11,218,0.08), rgba(21,0,255,0.04));
+    }
+
+    .about-image span {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--border-purple);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer {
+      background: var(--deep);
+      border-top: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-socials a {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-socials a:hover { color: var(--purple-glow); }
+
+    .footer-copy {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 9px; }
+      .hero { padding: 48px 20px 40px; }
+      .hero-logo { max-width: 280px; }
+      .section-grid { grid-template-columns: 1fr 1fr; }
+      .about-strip { grid-template-columns: 1fr; padding: 48px 20px; gap: 32px; }
+      .about-image { display: none; }
+      footer { padding: 20px; flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .section-grid { grid-template-columns: 1fr; }
+      .hero-logo { max-width: 220px; }
+    }
+
+    /* --- Stars canvas floats above everything --- */
+    #star-canvas {
+      position: fixed !important;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 500;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+      html { scroll-behavior: auto; }
+      #smoke-overlay { display: none; }
+      #star-canvas { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SMOKE REVEAL OVERLAY -->
+  <div id="smoke-overlay" aria-hidden="true">
+    <div class="smoke-particle sp1"></div>
+    <div class="smoke-particle sp2"></div>
+    <div class="smoke-particle sp3"></div>
+    <div class="smoke-particle sp4"></div>
+    <div class="smoke-particle sp5"></div>
+    <div class="smoke-particle sp6"></div>
+    <div class="smoke-particle sp7"></div>
+  </div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="Chemical Creature — Home">Chemical Creature</a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" aria-current="page">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="art.html">Art</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="animals.html">Animals</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+
+    <section class="hero" aria-labelledby="hero-desc">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <p class="hero-eyebrow" aria-hidden="true">Artist &bull; Musician &bull; Creator</p>
+      <img
+        src="logo.png"
+        alt="Chemical Creature — mirrored figure with blue hair, antlers, and flowers inside a dark ornate circle"
+        class="hero-logo"
+      >
+      <p id="hero-desc" class="sr-only">Chemical Creature — Art, Music, and Veterinary Medicine</p>
+      <div class="hero-divider" role="presentation"></div>
+      <p class="hero-sub">Art born from darkness. Music forged in shadow. A world entirely your own.</p>
+      <div class="hero-btns">
+        <a href="art.html" class="btn-primary">Explore my work</a>
+        <a href="merch.html" class="btn-secondary">Shop merch</a>
+      </div>
+    </section>
+
+    <nav aria-label="Site sections">
+      <ul class="section-grid" role="list">
+        <li>
+          <a href="about.html" class="section-card">
+            <span class="card-icon purple" aria-hidden="true">&#9884;</span>
+            <span class="card-name">About</span>
+            <p class="card-desc">The story behind the art</p>
+          </a>
+        </li>
+        <li>
+          <a href="art.html" class="section-card">
+            <span class="card-icon blue" aria-hidden="true">&#9670;</span>
+            <span class="card-name">Art</span>
+            <p class="card-desc">Originals, prints &amp; portfolio</p>
+          </a>
+        </li>
+        <li>
+          <a href="music.html" class="section-card">
+            <span class="card-icon purple" aria-hidden="true">&#9834;</span>
+            <span class="card-name">Music</span>
+            <p class="card-desc">Tracks, releases &amp; shows</p>
+          </a>
+        </li>
+        <li>
+          <a href="merch.html" class="section-card">
+            <span class="card-icon blue" aria-hidden="true">&#9733;</span>
+            <span class="card-name">Merch</span>
+            <p class="card-desc">Threads from the darkness</p>
+          </a>
+        </li>
+        <li>
+          <a href="animals.html" class="section-card">
+            <span class="card-icon mixed" aria-hidden="true">&#9878;</span>
+            <span class="card-name">Animals</span>
+            <p class="card-desc">Vet med &amp; creature love</p>
+          </a>
+        </li>
+        <li>
+          <a href="socials.html" class="section-card">
+            <span class="card-icon blue" aria-hidden="true">&#9672;</span>
+            <span class="card-name">Socials</span>
+            <p class="card-desc">Find me in the shadows</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="about-strip" aria-labelledby="about-heading">
+      <div>
+        <p class="about-label">The Origin</p>
+        <h2 class="about-heading" id="about-heading">Something Wicked,<br>Something Real</h2>
+        <p class="about-text">Chemical Creature is the creative world of an artist, musician, and animal lover who finds beauty in the shadows and sound in the silence. This is where all of it lives.</p>
+        <a href="about.html" class="btn-primary">Read the full story</a>
+      </div>
+      <div class="about-image" role="img" aria-label="Photo of Chemical Creature — coming soon">
+        <span aria-hidden="true">Your photo here</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo">Chemical Creature</div>
+    <nav aria-label="Social media links">
+      <ul class="footer-socials" role="list">
+        <li><a href="https://www.instagram.com/chemical_creature/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in new tab)">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@chemical_creature" target="_blank" rel="noopener noreferrer" aria-label="TikTok (opens in new tab)">TikTok</a></li>
+        <li><a href="https://open.spotify.com/artist/4r4cknNQfuZvkDEpDHSM5s" target="_blank" rel="noopener noreferrer" aria-label="Spotify (opens in new tab)">Spotify</a></li>
+        <li><a href="https://www.youtube.com/channel/UCqzaTmjW8ZDQeUViMNF4t6Q" target="_blank" rel="noopener noreferrer" aria-label="YouTube (opens in new tab)">YouTube</a></li>
+      </ul>
+    </nav>
+    <p class="footer-copy"><small>&copy; 2026 Chemical Creature. All rights reserved.</small></p>
+  </footer>
+
+  <script>
+    // Remove smoke overlay after animation completes
+    var overlay = document.getElementById('smoke-overlay');
+    setTimeout(function() {
+      overlay.classList.add('done');
+    }, 6500);
+  </script>
+
+  <script src="stars.js"></script>
+</body>
+</html>
