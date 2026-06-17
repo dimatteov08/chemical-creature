@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merch — Chemical Creature</title>
+  <meta name="description" content="Official Chemical Creature merchandise. Shop apparel and handmade goods.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0f;
+      --card: #0d0d14;
+      --deep: #060608;
+      --purple: #760BDA;
+      --purple-dim: #2d1b4e;
+      --purple-glow: #b088f9;
+      --blue: #1500FF;
+      --blue-bright: #4d6fff;
+      --blue-dim: #0f1f4a;
+      --grey: #CFCFCF;
+      --muted: #9e9e9e;
+      --white: #FFFFFF;
+      --border: #1a1025;
+      --border-purple: #2d1b4e;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--black);
+      color: var(--grey);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* --- SMOKE OVERLAY --- */
+    #smoke-overlay {
+      position: fixed; inset: 0;
+      z-index: 9999; pointer-events: none;
+      overflow: hidden; background: transparent;
+    }
+    .smoke-particle { position: absolute; border-radius: 50%; animation: smokeDrift 5.5s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    .sp1{width:80vw;height:70vh;background:radial-gradient(ellipse,rgba(180,180,185,0.95) 0%,rgba(160,160,165,0.7) 50%,transparent 80%);top:-15%;left:-15%;filter:blur(45px);animation-duration:5.5s}
+    .sp2{width:75vw;height:80vh;background:radial-gradient(ellipse,rgba(165,165,170,0.92) 0%,rgba(145,145,150,0.65) 50%,transparent 80%);top:-10%;right:-20%;filter:blur(50px);animation-delay:.2s;animation-duration:6s}
+    .sp3{width:90vw;height:60vh;background:radial-gradient(ellipse,rgba(190,190,195,0.9) 0%,rgba(170,170,175,0.6) 50%,transparent 80%);top:25%;left:-10%;filter:blur(55px);animation-delay:.1s;animation-duration:5.8s}
+    .sp4{width:70vw;height:75vh;background:radial-gradient(ellipse,rgba(155,155,162,0.93) 0%,rgba(135,135,142,0.68) 50%,transparent 80%);bottom:-15%;right:-10%;filter:blur(48px);animation-delay:.3s;animation-duration:6.2s}
+    .sp5{width:85vw;height:65vh;background:radial-gradient(ellipse,rgba(175,175,180,0.88) 0%,rgba(155,155,160,0.62) 50%,transparent 80%);bottom:-10%;left:5%;filter:blur(52px);animation-delay:.15s;animation-duration:5.9s}
+    .sp6{width:65vw;height:85vh;background:radial-gradient(ellipse,rgba(170,170,178,0.9) 0%,rgba(150,150,158,0.65) 50%,transparent 80%);top:15%;left:20%;filter:blur(46px);animation-delay:.25s;animation-duration:6.1s}
+    .sp7{width:55vw;height:55vh;background:radial-gradient(ellipse,rgba(185,185,190,0.85) 0%,rgba(165,165,170,0.6) 50%,transparent 80%);top:40%;right:5%;filter:blur(60px);animation-delay:.05s;animation-duration:5.7s}
+    @keyframes smokeDrift{0%{opacity:1;transform:scale(1) translate(0,0)}30%{opacity:.85;transform:scale(1.05) translate(-10px,-15px)}65%{opacity:.45;transform:scale(1.2) translate(-20px,-40px)}100%{opacity:0;transform:scale(1.45) translate(-35px,-90px)}}
+    #smoke-overlay.done{display:none}
+
+    /* --- STARS --- */
+    #star-canvas { position:fixed!important;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500; }
+
+    /* --- SKIP LINK --- */
+    .skip-link { position:absolute;top:-100px;left:16px;background:var(--purple);color:var(--white);font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:12px 20px;text-decoration:none;z-index:999;border-radius:2px;transition:top .2s; }
+    .skip-link:focus { top:16px; }
+    :focus-visible { outline:2px solid var(--purple-glow);outline-offset:3px; }
+
+    /* --- NAV --- */
+    nav {
+      background: var(--black);
+      border-bottom: 1px solid var(--border-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-links { display:flex;gap:28px;list-style:none; }
+    .nav-links a { font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s; }
+    .nav-links a:hover { color:var(--purple-glow); }
+    .nav-links a[aria-current="page"] { color:var(--blue-bright); }
+
+    /* --- PAGE HEADER --- */
+    .page-header {
+      padding: 72px 32px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: #e8e0f5;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .page-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--blue-bright);
+      text-transform: uppercase;
+    }
+
+    .page-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-purple), transparent);
+      margin: 24px auto 0;
+    }
+
+    /* --- SHOP SECTION --- */
+    .shop-section {
+      padding: 64px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--purple-glow);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      color: #e8e0f5;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* --- PRODUCT GRID --- */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    /* --- PRODUCT CARD --- */
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: border-color 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      border-color: var(--border-purple);
+      box-shadow: 0 0 24px rgba(118,11,218,0.12);
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.95);
+      transition: filter 0.3s;
+    }
+
+    .product-card:hover .product-image { filter: brightness(1); }
+
+    .product-info {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-name {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #e8e0f5;
+      margin-bottom: 6px;
+    }
+
+    .product-desc {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .product-price {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      color: var(--purple-glow);
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
+
+    /* --- SIZE SELECTOR --- */
+    .size-selector {
+      margin-bottom: 16px;
+    }
+
+    .size-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .size-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .size-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 6px 10px;
+      background: transparent;
+      border: 1px solid var(--border-purple);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+
+    .size-btn:hover {
+      border-color: var(--purple-glow);
+      color: var(--purple-glow);
+    }
+
+    .size-btn.selected {
+      background: var(--purple-dim);
+      border-color: var(--purple-glow);
+      color: #e8e0f5;
+    }
+
+    /* --- BUY BUTTON --- */
+    .buy-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--purple-dim);
+      border: 1px solid var(--purple);
+      color: #c9a8f7;
+      padding: 13px 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .buy-btn:hover {
+      background: var(--purple);
+      border-color: var(--purple-glow);
+      color: #e8e0f5;
+      box-shadow: 0 0 20px rgba(118,11,218,0.25);
+    }
+
+    .buy-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .buy-btn.loading {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    /* --- SIZE WARNING --- */
+    .size-warning {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #760BDA;
+      margin-top: 8px;
+      display: none;
+      text-align: center;
+    }
+
+    .size-warning.visible { display: block; }
+
+    /* --- SHIPPING INFO --- */
+    .shipping-info {
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .shipping-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .shipping-item {
+      text-align: center;
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .shipping-flag {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .shipping-region {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #e8e0f5;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .shipping-price {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: var(--purple-glow);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .shipping-time {
+      font-size: 12px;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .shipping-note {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 16px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: var(--deep);
+      border-top: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo { font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--muted); }
+    .footer-socials { display:flex;gap:20px;list-style:none; }
+    .footer-socials a { font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s; }
+    .footer-socials a:hover { color:var(--purple-glow); }
+    .footer-copy { font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted); }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 900px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .shipping-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 9px; }
+      .shop-section { padding: 40px 20px; }
+      .shipping-info { padding: 32px 20px; }
+      .product-grid { grid-template-columns: 1fr; }
+      footer { padding: 20px; flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+      #smoke-overlay { display: none; }
+      #star-canvas { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="smoke-overlay" aria-hidden="true">
+    <div class="smoke-particle sp1"></div>
+    <div class="smoke-particle sp2"></div>
+    <div class="smoke-particle sp3"></div>
+    <div class="smoke-particle sp4"></div>
+    <div class="smoke-particle sp5"></div>
+    <div class="smoke-particle sp6"></div>
+    <div class="smoke-particle sp7"></div>
+  </div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav aria-label="Main navigation">
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="art.html">Art</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html" aria-current="page">Merch</a></li>
+      <li><a href="animals.html">Animals</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+
+    <header class="page-header">
+      <h1 class="page-title">Merch</h1>
+      <p class="page-eyebrow">Official Chemical Creature Store</p>
+      <div class="page-divider" role="presentation"></div>
+    </header>
+
+    <!-- DROPSHIPPING SECTION -->
+    <section class="shop-section" aria-labelledby="apparel-title">
+      <span class="section-label">Apparel</span>
+      <h2 class="section-title" id="apparel-title">Chemical Creature Clothing</h2>
+
+      <div class="product-grid">
+
+        <!-- T-SHIRT PRODUCT CARD -->
+        <div class="product-card">
+          <img src="merch1.jpg" alt="Chemical Creature Unisex T-Shirt in black with the Chemical Creature logo design" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">Chemical Creature T-Shirt</h3>
+            <p class="product-desc">Classic unisex tee. 100% cotton, printed on demand and shipped directly to you.</p>
+            <p class="product-price">$24.99</p>
+            <div class="size-selector">
+              <span class="size-label">Select Size</span>
+              <div class="size-buttons" role="group" aria-label="T-shirt size selection">
+                <button class="size-btn" data-size="S" data-price="price_1Tj2smBmqEv1Ht4RBh6Dptmt" aria-pressed="false">S</button>
+                <button class="size-btn" data-size="M" data-price="price_1Tj2zEBmqEv1Ht4RKuPpn0Y0" aria-pressed="false">M</button>
+                <button class="size-btn" data-size="L" data-price="price_1Tj33PBmqEv1Ht4R3tPvu6wx" aria-pressed="false">L</button>
+                <button class="size-btn" data-size="XL" data-price="price_1TjKTHBmqEv1Ht4R7c8Ne0Js" aria-pressed="false">XL</button>
+                <button class="size-btn" data-size="2XL" data-price="price_1TjKa9BmqEv1Ht4R2PP7Dzyb" aria-pressed="false">2XL</button>
+                <button class="size-btn" data-size="3XL" data-price="price_1TjKeoBmqEv1Ht4RaSKuizIY" aria-pressed="false">3XL</button>
+                <button class="size-btn" data-size="4XL" data-price="price_1TjKlMBmqEv1Ht4R4po8wET0" aria-pressed="false">4XL</button>
+                <button class="size-btn" data-size="5XL" data-price="price_1TjKpYBmqEv1Ht4RHHQakayo" aria-pressed="false">5XL</button>
+              </div>
+            </div>
+            <button class="buy-btn" data-product="tshirt" disabled>
+              <i class="ph-thin ph-shopping-cart" aria-hidden="true"></i>
+              Select a Size
+            </button>
+            <p class="size-warning" aria-live="polite">Please select a size to continue</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SHIPPING INFO -->
+    <div class="shipping-info">
+      <span class="section-label">Shipping Information</span>
+      <div class="shipping-grid">
+        <div class="shipping-item">
+          <span class="shipping-flag" aria-hidden="true">🇺🇸</span>
+          <span class="shipping-region">United States</span>
+          <span class="shipping-price">$4.99</span>
+          <span class="shipping-time">7–12 business days</span>
+        </div>
+        <div class="shipping-item">
+          <span class="shipping-flag" aria-hidden="true">🇨🇦</span>
+          <span class="shipping-region">Canada</span>
+          <span class="shipping-price">$7.99</span>
+          <span class="shipping-time">10–20 business days</span>
+        </div>
+        <div class="shipping-item">
+          <span class="shipping-flag" aria-hidden="true">🌍</span>
+          <span class="shipping-region">International</span>
+          <span class="shipping-price">$12.99</span>
+          <span class="shipping-time">15–30 business days</span>
+        </div>
+      </div>
+      <p class="shipping-note">All apparel is printed on demand and fulfilled by Printful. Production takes 2–5 business days before shipping. Duties and taxes may apply for international orders.</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo">Chemical Creature</div>
+    <ul class="footer-socials" role="list">
+      <li><a href="https://www.instagram.com/chemical_creature/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in new tab)">Instagram</a></li>
+      <li><a href="https://www.tiktok.com/@chemical_creature" target="_blank" rel="noopener noreferrer" aria-label="TikTok (opens in new tab)">TikTok</a></li>
+      <li><a href="https://open.spotify.com/artist/4r4cknNQfuZvkDEpDHSM5s" target="_blank" rel="noopener noreferrer" aria-label="Spotify (opens in new tab)">Spotify</a></li>
+      <li><a href="https://www.youtube.com/channel/UCqzaTmjW8ZDQeUViMNF4t6Q" target="_blank" rel="noopener noreferrer" aria-label="YouTube (opens in new tab)">YouTube</a></li>
+    </ul>
+    <p class="footer-copy"><small>&copy; 2026 Chemical Creature. All rights reserved.</small></p>
+  </footer>
+
+  <script>
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
+    setTimeout(function() {
+      document.getElementById('smoke-overlay').classList.add('done');
+    }, 6500);
+
+    // ============================================
+    // SIZE SELECTOR + STRIPE CHECKOUT
+    // ============================================
+    var PUBLISHABLE_KEY = 'pk_live_51Tj2VnBmqEv1Ht4R5EjhFFZS98GUwTK8G9VxBbBb43kEFKHGoxPJ0A7IosSU5txj9xlDdvVnUOEOXmDorPFgFLY600Dfvq0rek';
+
+    document.querySelectorAll('.product-card').forEach(function(card) {
+      var sizeBtns   = card.querySelectorAll('.size-btn');
+      var buyBtn     = card.querySelector('.buy-btn');
+      var warning    = card.querySelector('.size-warning');
+      var selectedPrice = null;
+      var selectedSize  = null;
+
+      sizeBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          // Deselect all
+          sizeBtns.forEach(function(b) {
+            b.classList.remove('selected');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          // Select this one
+          btn.classList.add('selected');
+          btn.setAttribute('aria-pressed', 'true');
+          selectedPrice = btn.getAttribute('data-price');
+          selectedSize  = btn.getAttribute('data-size');
+          // Enable buy button
+          buyBtn.disabled = false;
+          buyBtn.innerHTML = '<i class="ph-thin ph-shopping-cart" aria-hidden="true"></i> Buy Now — Size ' + selectedSize;
+          warning.classList.remove('visible');
+        });
+      });
+
+      buyBtn.addEventListener('click', async function() {
+        if (!selectedPrice) {
+          warning.classList.add('visible');
+          return;
+        }
+
+        buyBtn.classList.add('loading');
+        buyBtn.disabled = true;
+        buyBtn.innerHTML = '<i class="ph-thin ph-circle-notch" aria-hidden="true"></i> Loading...';
+
+        try {
+          var response = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ priceId: selectedPrice })
+          });
+
+          var data = await response.json();
+
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            throw new Error(data.error || 'Something went wrong');
+          }
+        } catch (err) {
+          console.error('Checkout error:', err);
+          buyBtn.classList.remove('loading');
+          buyBtn.disabled = false;
+          buyBtn.innerHTML = '<i class="ph-thin ph-shopping-cart" aria-hidden="true"></i> Buy Now — Size ' + selectedSize;
+          alert('Something went wrong. Please try again.');
+        }
+      });
+    });
+  </script>
+
+  <script src="stars.js"></script>
+
+</body>
+</html>

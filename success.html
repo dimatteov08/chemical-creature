@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed — Chemical Creature</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0f; --purple-glow: #b088f9; --blue-bright: #4d6fff;
+      --muted: #9e9e9e; --white: #FFFFFF; --border-purple: #2d1b4e;
+      --purple-dim: #2d1b4e; --purple: #760BDA;
+    }
+    body {
+      background: var(--black);
+      font-family: 'Cormorant Garamond', serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px;
+      color: #e8e0f5;
+    }
+    .success-wrap { max-width: 500px; }
+    .success-icon { font-size: 64px; margin-bottom: 24px; display: block; }
+    .success-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--purple-glow);
+      margin-bottom: 16px;
+    }
+    .success-sub {
+      font-size: 17px;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .success-divider {
+      width: 80px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-purple), transparent);
+      margin: 0 auto 32px;
+    }
+    .back-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--purple-dim);
+      border: 1px solid var(--purple);
+      color: #c9a8f7;
+      padding: 13px 28px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s;
+      border-radius: 2px;
+    }
+    .back-btn:hover { background: var(--purple); color: #e8e0f5; }
+  </style>
+</head>
+<body>
+  <div class="success-wrap">
+    <span class="success-icon" aria-hidden="true">✦</span>
+    <h1 class="success-title">Order Confirmed</h1>
+    <div class="success-divider"></div>
+    <p class="success-sub">Thank you for your order! You'll receive a confirmation email shortly. Your Chemical Creature merch is being prepared and will ship directly to you.</p>
+    <a href="merch.html" class="back-btn">Continue Shopping</a>
+  </div>
+  <script src="stars.js"></script>
+</body>
+</html>
