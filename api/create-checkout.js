@@ -1,5 +1,18 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+// Map countries to shipping rate IDs
+const SHIPPING_RATES = {
+  US: 'shr_1TjL02BmqEv1Ht4RrrjfDGDC',      // US Standard $4.99
+  CA: 'shr_1TjL0rBmqEv1Ht4Rtqtss9qg',      // Canada $7.99
+  DEFAULT: 'shr_1TjL1oBmqEv1Ht4Rdp0KfZXo'  // International $12.99
+};
+
+function getShippingRate(country) {
+  if (country === 'US') return SHIPPING_RATES.US;
+  if (country === 'CA') return SHIPPING_RATES.CA;
+  return SHIPPING_RATES.DEFAULT;
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://www.chemicalcreature.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -9,8 +22,11 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { priceId } = req.body;
+    const { priceId, country } = req.body;
     if (!priceId) return res.status(400).json({ error: 'Price ID is required' });
+
+    // Determine shipping rate based on country
+    const shippingRateId = getShippingRate(country || 'DEFAULT');
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -39,10 +55,9 @@ module.exports = async (req, res) => {
           'VC','VE','VG','VN','VU','WF','WS','XK','YE','YT','ZA','ZM','ZW','ZZ'
         ],
       },
+      // Single shipping rate — no customer choice
       shipping_options: [
-        { shipping_rate: 'shr_1TjL02BmqEv1Ht4RrrjfDGDC' },
-        { shipping_rate: 'shr_1TjL0rBmqEv1Ht4Rtqtss9qg' },
-        { shipping_rate: 'shr_1TjL1oBmqEv1Ht4Rdp0KfZXo' },
+        { shipping_rate: shippingRateId }
       ],
       automatic_tax: { enabled: false },
       phone_number_collection: { enabled: true },
