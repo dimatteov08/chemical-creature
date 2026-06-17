@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animals — Chemical Creature</title>
+  <meta name="description" content="Chemical Creature's animal advocacy page. Supporting the Cleveland APL and animal welfare causes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0f;
+      --card: #0d0d14;
+      --deep: #060608;
+      --purple: #760BDA;
+      --purple-dim: #2d1b4e;
+      --purple-glow: #b088f9;
+      --blue: #1500FF;
+      --blue-bright: #4d6fff;
+      --blue-dim: #0f1f4a;
+      --grey: #CFCFCF;
+      --muted: #9e9e9e;
+      --white: #FFFFFF;
+      --border: #1a1025;
+      --border-purple: #2d1b4e;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--black);
+      color: var(--grey);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* --- SMOKE OVERLAY --- */
+    #smoke-overlay {
+      position: fixed; inset: 0;
+      z-index: 9999; pointer-events: none;
+      overflow: hidden; background: transparent;
+    }
+    .smoke-particle { position: absolute; border-radius: 50%; animation: smokeDrift 5.5s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    .sp1{width:80vw;height:70vh;background:radial-gradient(ellipse,rgba(180,180,185,0.95) 0%,rgba(160,160,165,0.7) 50%,transparent 80%);top:-15%;left:-15%;filter:blur(45px);animation-duration:5.5s}
+    .sp2{width:75vw;height:80vh;background:radial-gradient(ellipse,rgba(165,165,170,0.92) 0%,rgba(145,145,150,0.65) 50%,transparent 80%);top:-10%;right:-20%;filter:blur(50px);animation-delay:.2s;animation-duration:6s}
+    .sp3{width:90vw;height:60vh;background:radial-gradient(ellipse,rgba(190,190,195,0.9) 0%,rgba(170,170,175,0.6) 50%,transparent 80%);top:25%;left:-10%;filter:blur(55px);animation-delay:.1s;animation-duration:5.8s}
+    .sp4{width:70vw;height:75vh;background:radial-gradient(ellipse,rgba(155,155,162,0.93) 0%,rgba(135,135,142,0.68) 50%,transparent 80%);bottom:-15%;right:-10%;filter:blur(48px);animation-delay:.3s;animation-duration:6.2s}
+    .sp5{width:85vw;height:65vh;background:radial-gradient(ellipse,rgba(175,175,180,0.88) 0%,rgba(155,155,160,0.62) 50%,transparent 80%);bottom:-10%;left:5%;filter:blur(52px);animation-delay:.15s;animation-duration:5.9s}
+    .sp6{width:65vw;height:85vh;background:radial-gradient(ellipse,rgba(170,170,178,0.9) 0%,rgba(150,150,158,0.65) 50%,transparent 80%);top:15%;left:20%;filter:blur(46px);animation-delay:.25s;animation-duration:6.1s}
+    .sp7{width:55vw;height:55vh;background:radial-gradient(ellipse,rgba(185,185,190,0.85) 0%,rgba(165,165,170,0.6) 50%,transparent 80%);top:40%;right:5%;filter:blur(60px);animation-delay:.05s;animation-duration:5.7s}
+    @keyframes smokeDrift{0%{opacity:1;transform:scale(1) translate(0,0)}30%{opacity:.85;transform:scale(1.05) translate(-10px,-15px)}65%{opacity:.45;transform:scale(1.2) translate(-20px,-40px)}100%{opacity:0;transform:scale(1.45) translate(-35px,-90px)}}
+    #smoke-overlay.done{display:none}
+
+    /* --- STARS --- */
+    #star-canvas { position:fixed!important;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500; }
+
+    /* --- SKIP LINK --- */
+    .skip-link { position:absolute;top:-100px;left:16px;background:var(--purple);color:var(--white);font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:12px 20px;text-decoration:none;z-index:999;border-radius:2px;transition:top .2s; }
+    .skip-link:focus { top:16px; }
+    :focus-visible { outline:2px solid var(--purple-glow);outline-offset:3px; }
+
+    /* --- NAV --- */
+    nav {
+      background: var(--black);
+      border-bottom: 1px solid var(--border-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-links { display:flex;gap:28px;list-style:none; }
+    .nav-links a { font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s; }
+    .nav-links a:hover { color:var(--purple-glow); }
+    .nav-links a[aria-current="page"] { color:var(--blue-bright); }
+
+    /* --- PAGE HEADER --- */
+    .page-header {
+      padding: 72px 32px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: #e8e0f5;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .page-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--blue-bright);
+      text-transform: uppercase;
+    }
+
+    .page-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-purple), transparent);
+      margin: 24px auto 0;
+    }
+
+    /* --- MAIN CONTENT --- */
+    .content-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* --- SECTION LABEL --- */
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--purple-glow);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      color: #e8e0f5;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-text {
+      font-size: 17px;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 32px;
+      border-left: 2px solid var(--border-purple);
+      padding-left: 20px;
+    }
+
+    /* --- VIDEO --- */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      margin-bottom: 28px;
+      border: 1px solid var(--border-purple);
+      box-shadow: 0 0 40px rgba(118,11,218,0.15);
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* --- APL BUTTONS --- */
+    .apl-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 64px;
+    }
+
+    .apl-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 16px 20px;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 2px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .apl-btn.primary {
+      background: var(--purple-dim);
+      border: 1px solid var(--purple);
+      color: #c9a8f7;
+    }
+
+    .apl-btn.primary:hover {
+      background: var(--purple);
+      border-color: var(--purple-glow);
+      color: #e8e0f5;
+      box-shadow: 0 0 20px rgba(118,11,218,0.25);
+    }
+
+    .apl-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--blue-dim);
+      color: var(--blue-bright);
+    }
+
+    .apl-btn.secondary:hover {
+      background: var(--blue-dim);
+      border-color: var(--blue-bright);
+      color: #a0b4ff;
+    }
+
+    /* --- DIVIDER --- */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-purple), transparent);
+      margin: 48px 0;
+    }
+
+    /* --- COMING SOON --- */
+    .coming-soon {
+      text-align: center;
+      padding: 48px 32px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+
+    .coming-soon-icon {
+      font-size: 32px;
+      color: var(--purple-glow);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .coming-soon-text {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--border-purple);
+      font-style: italic;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: var(--deep);
+      border-top: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo { font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--muted); }
+    .footer-socials { display:flex;gap:20px;list-style:none; }
+    .footer-socials a { font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s; }
+    .footer-socials a:hover { color:var(--purple-glow); }
+    .footer-copy { font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted); }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 9px; }
+      .content-wrap { padding: 40px 20px; }
+      .apl-buttons { grid-template-columns: 1fr; }
+      footer { padding: 20px; flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+      #smoke-overlay { display: none; }
+      #star-canvas { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="smoke-overlay" aria-hidden="true">
+    <div class="smoke-particle sp1"></div>
+    <div class="smoke-particle sp2"></div>
+    <div class="smoke-particle sp3"></div>
+    <div class="smoke-particle sp4"></div>
+    <div class="smoke-particle sp5"></div>
+    <div class="smoke-particle sp6"></div>
+    <div class="smoke-particle sp7"></div>
+  </div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav aria-label="Main navigation">
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="art.html">Art</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="animals.html" aria-current="page">Animals</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+
+    <header class="page-header">
+      <h1 class="page-title">Animals</h1>
+      <p class="page-eyebrow">Advocacy &amp; Vet Med</p>
+      <div class="page-divider" role="presentation"></div>
+    </header>
+
+    <div class="content-wrap">
+
+      <!-- CLEVELAND APL SECTION -->
+      <section aria-labelledby="apl-title">
+        <span class="section-label">Featured Cause</span>
+        <h2 class="section-title" id="apl-title">Cleveland APL</h2>
+        <p class="section-text">
+          The Cleveland Animal Protective League has been saving and rehoming animals in Northeast Ohio since 1913. Chemical Creature is proud to support their mission — whether you're looking to adopt, donate, or give your time, every action makes a difference.
+        </p>
+
+        <!-- VIDEO -->
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/owjAUYQd8D0"
+            title="Cleveland APL Telethon Footage — Chemical Creature"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+
+        <!-- APL BUTTONS -->
+        <div class="apl-buttons" role="list">
+          <a href="https://clevelandapl.org/" target="_blank" rel="noopener noreferrer" class="apl-btn secondary" aria-label="Visit the Cleveland APL website (opens in new tab)">
+            <i class="ph-thin ph-house" aria-hidden="true"></i>
+            Cleveland APL Website
+          </a>
+          <a href="https://clevelandapl.org/adopt/" target="_blank" rel="noopener noreferrer" class="apl-btn secondary" aria-label="Adopt from Cleveland APL (opens in new tab)">
+            <i class="ph-thin ph-paw-print" aria-hidden="true"></i>
+            Adopt
+          </a>
+          <a href="https://clevelandapl.org/donate/" target="_blank" rel="noopener noreferrer" class="apl-btn primary" aria-label="Donate to Cleveland APL (opens in new tab)">
+            <i class="ph-thin ph-heart" aria-hidden="true"></i>
+            Donate
+          </a>
+          <a href="https://clevelandapl.org/volunteer-opportunities/volunteer/" target="_blank" rel="noopener noreferrer" class="apl-btn primary" aria-label="Volunteer at Cleveland APL (opens in new tab)">
+            <i class="ph-thin ph-hands-clapping" aria-hidden="true"></i>
+            Volunteer
+          </a>
+        </div>
+      </section>
+
+      <div class="section-divider" role="presentation"></div>
+
+      <!-- MORE COMING SOON -->
+      <div class="coming-soon">
+        <span class="coming-soon-icon" aria-hidden="true"><i class="ph-thin ph-paw-print"></i></span>
+        <p class="coming-soon-text">More shelters, causes &amp; vet med content coming soon</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo">Chemical Creature</div>
+    <ul class="footer-socials" role="list">
+      <li><a href="https://www.instagram.com/chemical_creature/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in new tab)">Instagram</a></li>
+      <li><a href="https://www.tiktok.com/@chemical_creature" target="_blank" rel="noopener noreferrer" aria-label="TikTok (opens in new tab)">TikTok</a></li>
+      <li><a href="https://open.spotify.com/artist/4r4cknNQfuZvkDEpDHSM5s" target="_blank" rel="noopener noreferrer" aria-label="Spotify (opens in new tab)">Spotify</a></li>
+      <li><a href="https://www.youtube.com/channel/UCqzaTmjW8ZDQeUViMNF4t6Q" target="_blank" rel="noopener noreferrer" aria-label="YouTube (opens in new tab)">YouTube</a></li>
+    </ul>
+    <p class="footer-copy"><small>&copy; 2026 Chemical Creature. All rights reserved.</small></p>
+  </footer>
+
+  <script>
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    setTimeout(function() {
+      document.getElementById('smoke-overlay').classList.add('done');
+    }, 6500);
+  </script>
+
+  <script src="stars.js"></script>
+
+</body>
+</html>
