@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
         { shipping_rate: 'shr_1TjL0rBmqEv1Ht4Rtqtss9qg' },
         { shipping_rate: 'shr_1TjL1oBmqEv1Ht4Rdp0KfZXo' },
       ],
-      automatic_tax: { enabled: true },
+      automatic_tax: { enabled: false },
       phone_number_collection: { enabled: true },
       billing_address_collection: 'required',
       success_url: 'https://www.chemicalcreature.com/success.html?session_id={CHECKOUT_SESSION_ID}',
