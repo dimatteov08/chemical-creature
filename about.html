@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Chemical Creature</title>
+  <meta name="description" content="Learn about Chemical Creature — artist, musician, and animal sciences graduate from The Ohio State University.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0f;
+      --card: #0d0d14;
+      --deep: #060608;
+      --purple: #760BDA;
+      --purple-dim: #2d1b4e;
+      --purple-glow: #b088f9;
+      --blue: #1500FF;
+      --blue-bright: #4d6fff;
+      --blue-dim: #0f1f4a;
+      --grey: #CFCFCF;
+      --muted: #9e9e9e;
+      --white: #FFFFFF;
+      --border: #1a1025;
+      --border-purple: #2d1b4e;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--black);
+      color: var(--grey);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* --- SMOKE OVERLAY --- */
+    #smoke-overlay {
+      position: fixed; inset: 0;
+      z-index: 9999; pointer-events: none;
+      overflow: hidden; background: transparent;
+    }
+    .smoke-particle { position: absolute; border-radius: 50%; animation: smokeDrift 5.5s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    .sp1{width:80vw;height:70vh;background:radial-gradient(ellipse,rgba(180,180,185,0.95) 0%,rgba(160,160,165,0.7) 50%,transparent 80%);top:-15%;left:-15%;filter:blur(45px);animation-duration:5.5s}
+    .sp2{width:75vw;height:80vh;background:radial-gradient(ellipse,rgba(165,165,170,0.92) 0%,rgba(145,145,150,0.65) 50%,transparent 80%);top:-10%;right:-20%;filter:blur(50px);animation-delay:.2s;animation-duration:6s}
+    .sp3{width:90vw;height:60vh;background:radial-gradient(ellipse,rgba(190,190,195,0.9) 0%,rgba(170,170,175,0.6) 50%,transparent 80%);top:25%;left:-10%;filter:blur(55px);animation-delay:.1s;animation-duration:5.8s}
+    .sp4{width:70vw;height:75vh;background:radial-gradient(ellipse,rgba(155,155,162,0.93) 0%,rgba(135,135,142,0.68) 50%,transparent 80%);bottom:-15%;right:-10%;filter:blur(48px);animation-delay:.3s;animation-duration:6.2s}
+    .sp5{width:85vw;height:65vh;background:radial-gradient(ellipse,rgba(175,175,180,0.88) 0%,rgba(155,155,160,0.62) 50%,transparent 80%);bottom:-10%;left:5%;filter:blur:52px;animation-delay:.15s;animation-duration:5.9s}
+    .sp6{width:65vw;height:85vh;background:radial-gradient(ellipse,rgba(170,170,178,0.9) 0%,rgba(150,150,158,0.65) 50%,transparent 80%);top:15%;left:20%;filter:blur(46px);animation-delay:.25s;animation-duration:6.1s}
+    .sp7{width:55vw;height:55vh;background:radial-gradient(ellipse,rgba(185,185,190,0.85) 0%,rgba(165,165,170,0.6) 50%,transparent 80%);top:40%;right:5%;filter:blur(60px);animation-delay:.05s;animation-duration:5.7s}
+    @keyframes smokeDrift{0%{opacity:1;transform:scale(1) translate(0,0)}30%{opacity:.85;transform:scale(1.05) translate(-10px,-15px)}65%{opacity:.45;transform:scale(1.2) translate(-20px,-40px)}100%{opacity:0;transform:scale(1.45) translate(-35px,-90px)}}
+    #smoke-overlay.done{display:none}
+
+    /* --- STARS --- */
+    #star-canvas { position:fixed!important;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500; }
+
+    /* --- SKIP LINK --- */
+    .skip-link { position:absolute;top:-100px;left:16px;background:var(--purple);color:var(--white);font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:12px 20px;text-decoration:none;z-index:999;border-radius:2px;transition:top .2s; }
+    .skip-link:focus { top:16px; }
+    :focus-visible { outline:2px solid var(--purple-glow);outline-offset:3px; }
+
+    /* --- NAV --- */
+    nav {
+      background: var(--black);
+      border-bottom: 1px solid var(--border-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-links { display:flex;gap:28px;list-style:none; }
+    .nav-links a { font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s; }
+    .nav-links a:hover { color:var(--purple-glow); }
+    .nav-links a[aria-current="page"] { color:var(--blue-bright); }
+
+    /* --- PAGE HEADER --- */
+    .page-header {
+      padding: 72px 32px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: #e8e0f5;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .page-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--blue-bright);
+      text-transform: uppercase;
+    }
+
+    .page-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-purple), transparent);
+      margin: 24px auto 0;
+    }
+
+    /* --- ABOUT SECTIONS --- */
+    .about-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      padding: 80px 64px;
+      border-bottom: 1px solid var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-section.reverse {
+      direction: rtl;
+    }
+
+    .about-section.reverse .about-text {
+      direction: ltr;
+    }
+
+    .about-section.reverse .about-photo {
+      direction: ltr;
+    }
+
+    /* --- PHOTO PLACEHOLDER --- */
+    .about-photo {
+      aspect-ratio: 3/4;
+      background: var(--card);
+      border: 1px solid var(--border-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-photo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(118,11,218,0.08), rgba(21,0,255,0.04));
+    }
+
+    .about-photo span {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--border-purple);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* --- TEXT CONTENT --- */
+    .about-text {}
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--purple-glow);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-heading {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: #e8e0f5;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .section-divider-small {
+      width: 40px;
+      height: 1px;
+      background: var(--purple-dim);
+      margin-bottom: 24px;
+    }
+
+    .section-body {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .section-body strong {
+      color: #e8e0f5;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* --- CREDENTIAL TAGS --- */
+    .credential-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .credential-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple-glow);
+      border: 1px solid var(--purple-dim);
+      padding: 6px 12px;
+      border-radius: 2px;
+    }
+
+    .credential-tag.blue {
+      color: var(--blue-bright);
+      border-color: var(--blue-dim);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: var(--deep);
+      border-top: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo { font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--muted); }
+    .footer-socials { display:flex;gap:20px;list-style:none; }
+    .footer-socials a { font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s; }
+    .footer-socials a:hover { color:var(--purple-glow); }
+    .footer-copy { font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted); }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 900px) {
+      .about-section {
+        grid-template-columns: 1fr;
+        padding: 56px 32px;
+        gap: 40px;
+        direction: ltr !important;
+      }
+      .about-photo { aspect-ratio: 4/3; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 9px; }
+      .about-section { padding: 48px 20px; }
+      footer { padding: 20px; flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+      #smoke-overlay { display: none; }
+      #star-canvas { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="smoke-overlay" aria-hidden="true">
+    <div class="smoke-particle sp1"></div>
+    <div class="smoke-particle sp2"></div>
+    <div class="smoke-particle sp3"></div>
+    <div class="smoke-particle sp4"></div>
+    <div class="smoke-particle sp5"></div>
+    <div class="smoke-particle sp6"></div>
+    <div class="smoke-particle sp7"></div>
+  </div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav aria-label="Main navigation">
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" aria-current="page">About</a></li>
+      <li><a href="art.html">Art</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="animals.html">Animals</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="socials.html">Socials</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+
+    <header class="page-header">
+      <h1 class="page-title">About</h1>
+      <p class="page-eyebrow">The Story Behind the Creature</p>
+      <div class="page-divider" role="presentation"></div>
+    </header>
+
+    <!-- SECTION 1 — CHEMICAL CREATURE -->
+    <section class="about-section" aria-labelledby="intro-heading">
+      <div class="about-text">
+        <span class="section-label">The Origin</span>
+        <h2 class="section-heading" id="intro-heading">Chemical Creature</h2>
+        <div class="section-divider-small"></div>
+        <p class="section-body">
+          I am many things held together by darkness and hope. Chemical Creature is not just a name — it is the truest version of who I am. I create because I have to. I find beauty in the shadows, sound in the silence, and meaning in the places most people walk past. There is something deeply personal in every piece of art I make, every note I play, every animal I care for. Life has not always been easy, and the darkness is real — but so is the light that refuses to go out. I believe in creating fiercely, caring deeply, and keeping going no matter what. This is my world. You are welcome in it.
+        </p>
+      </div>
+      <div class="about-photo" role="img" aria-label="Photo of Chemical Creature — coming soon">
+        <span aria-hidden="true">Your photo<br>coming soon</span>
+      </div>
+    </section>
+
+    <!-- SECTION 2 — ART -->
+    <section class="about-section reverse" aria-labelledby="art-heading">
+      <div class="about-text">
+        <span class="section-label">Creative Work</span>
+        <h2 class="section-heading" id="art-heading">Art</h2>
+        <div class="section-divider-small"></div>
+        <p class="section-body">
+          My art lives in the tension between opposing worlds — life and death, beauty and decay, darkness and wonder. Working primarily in <strong>graphite, colored pencil, and pastel</strong>, I explore themes of juxtaposition that challenge the viewer to hold two truths at once. I earned a <strong>Gold Key Award from the Cleveland Institute of Art</strong> — one of the most prestigious honors in scholastic art — and completed a <strong>minor in Studio Art at The Ohio State University</strong>. Every piece I create is an act of honesty about the world as I see it.
+        </p>
+        <div class="credential-tags" aria-label="Art credentials">
+          <span class="credential-tag">Gold Key — Cleveland Institute of Art</span>
+          <span class="credential-tag blue">Minor in Studio Art — Ohio State</span>
+        </div>
+      </div>
+      <div class="about-photo" role="img" aria-label="Art photo — coming soon">
+        <span aria-hidden="true">Art photo<br>coming soon</span>
+      </div>
+    </section>
+
+    <!-- SECTION 3 — MUSIC -->
+    <section class="about-section" aria-labelledby="music-heading">
+      <div class="about-text">
+        <span class="section-label">Sound</span>
+        <h2 class="section-heading" id="music-heading">Music</h2>
+        <div class="section-divider-small"></div>
+        <p class="section-body">
+          My music is built from the same raw material as my life — emotion that has nowhere else to go. Rooted in <strong>emo, punk, and alternative</strong>, my sound is honest, unpolished in the best way, and unafraid of the dark. I am a <strong>Cleveland Music Award Nominee</strong>, a recognition that means the world to me in a city whose music scene shaped who I am. More is always coming. Keep listening.
+        </p>
+        <div class="credential-tags" aria-label="Music credentials">
+          <span class="credential-tag">Cleveland Music Award Nominee</span>
+          <span class="credential-tag blue">Emo · Punk · Alternative</span>
+        </div>
+      </div>
+      <div class="about-photo" role="img" aria-label="Music photo — coming soon">
+        <span aria-hidden="true">Music photo<br>coming soon</span>
+      </div>
+    </section>
+
+    <!-- SECTION 4 — ANIMALS & VET MED -->
+    <section class="about-section reverse" aria-labelledby="animals-heading">
+      <div class="about-text">
+        <span class="section-label">Science &amp; Soul</span>
+        <h2 class="section-heading" id="animals-heading">Animals &amp;<br>Veterinary Medicine</h2>
+        <div class="section-divider-small"></div>
+        <p class="section-body">
+          My love for animals is not separate from my creativity — it is part of the same heart. I hold a <strong>Bachelor of Science in Animal Sciences with a Biosciences specialization from The Ohio State University</strong>. My time volunteering in the <strong>Cleveland APL's veterinary clinic</strong> gave me hands-on experience in shelter medicine and deepened my understanding of what it means to advocate for animals who cannot speak for themselves. My cat, <strong>Jackal</strong>, is an APL adoptee — living proof that rescue changes lives on both sides of the equation. Every creature deserves care. Every life matters.
+        </p>
+        <div class="credential-tags" aria-label="Animal sciences credentials">
+          <span class="credential-tag">B.S. Animal Sciences — Ohio State</span>
+          <span class="credential-tag blue">Biosciences Specialization</span>
+          <span class="credential-tag">Cleveland APL Volunteer</span>
+          <span class="credential-tag blue">Shelter Medicine</span>
+        </div>
+      </div>
+      <div class="about-photo" role="img" aria-label="Animals photo — coming soon">
+        <span aria-hidden="true">Animals photo<br>coming soon</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo">Chemical Creature</div>
+    <ul class="footer-socials" role="list">
+      <li><a href="https://www.instagram.com/chemical_creature/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in new tab)">Instagram</a></li>
+      <li><a href="https://www.tiktok.com/@chemical_creature" target="_blank" rel="noopener noreferrer" aria-label="TikTok (opens in new tab)">TikTok</a></li>
+      <li><a href="https://open.spotify.com/artist/4r4cknNQfuZvkDEpDHSM5s" target="_blank" rel="noopener noreferrer" aria-label="Spotify (opens in new tab)">Spotify</a></li>
+      <li><a href="https://www.youtube.com/channel/UCqzaTmjW8ZDQeUViMNF4t6Q" target="_blank" rel="noopener noreferrer" aria-label="YouTube (opens in new tab)">YouTube</a></li>
+    </ul>
+    <p class="footer-copy"><small>&copy; 2026 Chemical Creature. All rights reserved.</small></p>
+  </footer>
+
+  <script>
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    setTimeout(function() {
+      document.getElementById('smoke-overlay').classList.add('done');
+    }, 6500);
+  </script>
+
+  <script src="stars.js"></script>
+
+</body>
+</html>
