@@ -1,10 +1,9 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// Map countries to shipping rate IDs
 const SHIPPING_RATES = {
-  US: 'shr_1TjL02BmqEv1Ht4RrrjfDGDC',      // US Standard $4.99
-  CA: 'shr_1TjL0rBmqEv1Ht4Rtqtss9qg',      // Canada $7.99
-  DEFAULT: 'shr_1TjL1oBmqEv1Ht4Rdp0KfZXo'  // International $12.99
+  US: 'shr_1TjL02BmqEv1Ht4RrrjfDGDC',
+  CA: 'shr_1TjL0rBmqEv1Ht4Rtqtss9qg',
+  DEFAULT: 'shr_1TjL1oBmqEv1Ht4Rdp0KfZXo'
 };
 
 function getShippingRate(country) {
@@ -22,19 +21,32 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { priceId, country } = req.body;
-    if (!priceId) return res.status(400).json({ error: 'Price ID is required' });
+    const { items, priceId, country } = req.body;
 
-    // Determine shipping rate based on country
+    // Support both single-item (legacy) and multi-item cart checkout
+    var lineItems;
+    if (items && Array.isArray(items) && items.length > 0) {
+      lineItems = items.map(function(item) {
+        return {
+          price: item.priceId,
+          quantity: item.quantity || 1,
+        };
+      });
+    } else if (priceId) {
+      lineItems = [{
+        price: priceId,
+        quantity: 1,
+        adjustable_quantity: { enabled: true, minimum: 1, maximum: 99 },
+      }];
+    } else {
+      return res.status(400).json({ error: 'No items provided' });
+    }
+
     const shippingRateId = getShippingRate(country || 'DEFAULT');
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [{
-        price: priceId,
-        quantity: 1,
-        adjustable_quantity: { enabled: true, minimum: 1, maximum: 99 },
-      }],
+      line_items: lineItems,
       mode: 'payment',
       shipping_address_collection: {
         allowed_countries: [
@@ -55,7 +67,6 @@ module.exports = async (req, res) => {
           'VC','VE','VG','VN','VU','WF','WS','XK','YE','YT','ZA','ZM','ZW','ZZ'
         ],
       },
-      // Single shipping rate — no customer choice
       shipping_options: [
         { shipping_rate: shippingRateId }
       ],
@@ -64,7 +75,6 @@ module.exports = async (req, res) => {
       billing_address_collection: 'required',
       success_url: 'https://www.chemicalcreature.com/success.html?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'https://www.chemicalcreature.com/merch.html',
-      metadata: { price_id: priceId },
     });
 
     return res.status(200).json({ url: session.url });
